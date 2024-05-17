@@ -53,3 +53,20 @@ void ler_arquivo_clientes(struct Cliente *clientesbanco, int *numClientes) {
   fclose(arquivo);
 }
 
+void ler_arquivo_extrato(struct Extrato *lista_extrato, int *numExtratos) {
+  FILE *arquivo = fopen("extrato.txt", "r");
+  if (arquivo == NULL) {
+    perror("Erro ao abrir o arquivo");
+    return;
+  }
+
+  while (fscanf(arquivo, "%[^,],%[^,],%lf,%lf,%lf\n",
+                lista_extrato[*numExtratos].cpf, lista_extrato[*numExtratos].data,
+                &lista_extrato[*numExtratos].valor,
+                &lista_extrato[*numExtratos].tarifa,
+                &lista_extrato[*numExtratos].saldo) != EOF) {
+    (*numExtratos)++;
+  }
+
+  fclose(arquivo);
+}
