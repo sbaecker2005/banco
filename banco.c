@@ -141,3 +141,10 @@ void deletar_cliente(struct Cliente *clientesbanco, int *numClientes) {
   }
   printf("CPF ou senha incorretos\n");
 }
+void listar_clientes(struct Cliente *clientesbanco, int numClientes) {
+  for (int i = 0; i < numClientes; i++) {
+    printf("\n%s | %s | %d | %.2lf | %s\n", clientesbanco[i].nome,
+           clientesbanco[i].cpf, clientesbanco[i].tipo, clientesbanco[i].saldo,
+           clientesbanco[i].senha);
+  }
+}
