@@ -148,3 +148,17 @@ void listar_clientes(struct Cliente *clientesbanco, int numClientes) {
            clientesbanco[i].senha);
   }
 }
+
+void deposito(struct Cliente *clientesbanco, int numClientes, struct Extrato *lista_extrato, int *numExtratos) {
+  char cpf[12];
+  double valor;
+  printf("Digite seu CPF: ");
+  scanf("%s", cpf);
+  printf("Digite o valor que será depositado: ");
+  scanf("%lf", &valor);
+
+  struct Cliente *cliente = buscar_cliente(cpf, clientesbanco, numClientes);
+  if (cliente == NULL) {
+    printf("Cliente não encontrado\n");
+    return;
+  }
