@@ -35,3 +35,21 @@ void arquivo_extrato(struct Extrato *lista_extrato, int numExtratos) {
 
   fclose(arquivo);
 }
+void ler_arquivo_clientes(struct Cliente *clientesbanco, int *numClientes) {
+  FILE *arquivo = fopen("clientesbanco.bin", "rb");
+  if (arquivo == NULL) {
+    perror("Erro ao abrir o arquivo");
+    return;
+  }
+
+  while (fscanf(arquivo, "%[^,],%[^,],%d,%lf,%s\n",
+                clientesbanco[*numClientes].nome, clientesbanco[*numClientes].cpf,
+                &clientesbanco[*numClientes].tipo,
+                &clientesbanco[*numClientes].saldo,
+                clientesbanco[*numClientes].senha) != EOF) {
+    (*numClientes)++;
+  }
+
+  fclose(arquivo);
+}
+
