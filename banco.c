@@ -87,3 +87,17 @@ struct Cliente *buscar_senha(const char *senha, struct Cliente *clientesbanco, i
   }
   return NULL;
 }
+
+void cadastrar_cliente(struct Cliente *clientesbanco, int *numClientes, struct Extrato *lista_extrato, int *numExtratos) {
+  struct Cliente cliente;
+  printf("Digite os dados para criar sua conta:\n");
+  printf("Digite seu nome: ");
+  scanf("%s", cliente.nome);
+  printf("Digite seu CPF: ");
+  scanf("%s", cliente.cpf);
+  printf("Digite 1 para a conta plus ou digite 2 para a conta comum: ");
+  scanf("%d", &cliente.tipo);
+  printf("Digite o valor da conta: ");
+  scanf("%lf", &cliente.saldo);
+  printf("Digite a senha do usuário: ");
+  scanf("%s", cliente.senha);
