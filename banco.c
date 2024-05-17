@@ -19,3 +19,19 @@ void arquivo_clientes(struct Cliente *clientesbanco, int numClientes) {
 
   fclose(arquivo);
 }
+
+void arquivo_extrato(struct Extrato *lista_extrato, int numExtratos) {
+  FILE *arquivo = fopen("extrato.txt", "w");
+  if (arquivo == NULL) {
+    perror("Erro ao abrir o arquivo");
+    return;
+  }
+
+  for (int i = 0; i < numExtratos; i++) {
+    fprintf(arquivo, "%s,%s,%.2lf,%.2lf,%.2lf\n", lista_extrato[i].cpf,
+            lista_extrato[i].data, lista_extrato[i].valor,
+            lista_extrato[i].tarifa, lista_extrato[i].saldo);
+  }
+
+  fclose(arquivo);
+}
