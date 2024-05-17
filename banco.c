@@ -101,3 +101,20 @@ void cadastrar_cliente(struct Cliente *clientesbanco, int *numClientes, struct E
   scanf("%lf", &cliente.saldo);
   printf("Digite a senha do usuário: ");
   scanf("%s", cliente.senha);
+
+  strcpy(lista_extrato[*numExtratos].cpf, cliente.cpf);
+  time_t now = time(NULL);
+  struct tm *tm_info = localtime(&now);
+  strftime(lista_extrato[*numExtratos].data, 20, "%d/%m/%Y %H:%M:%S", tm_info);
+  lista_extrato[*numExtratos].valor = cliente.saldo;
+  lista_extrato[*numExtratos].tarifa = 0.0;
+  lista_extrato[*numExtratos].saldo = cliente.saldo;
+  (*numExtratos)++;
+
+  clientesbanco[*numClientes] = cliente;
+  (*numClientes)++;
+
+  arquivo_clientes(clientesbanco, *numClientes);
+  arquivo_extrato(lista_extrato, *numExtratos);
+  printf("Cliente cadastrado com sucesso.\n");
+}
