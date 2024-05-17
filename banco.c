@@ -216,3 +216,16 @@ void debito(struct Cliente *clientesbanco, int numClientes, struct Extrato *list
   arquivo_extrato(lista_extrato, *numExtratos);
   printf("O valor foi debitado com sucesso\n");
 }
+void extrato(struct Cliente *clientesbanco, int numClientes, struct Extrato *lista_extrato, int numExtratos) {
+  char cpf[12];
+  printf("Digite o CPF: ");
+  scanf("%s", cpf);
+
+  for (int i = 0; i < numExtratos; i++) {
+    if (strcmp(cpf, lista_extrato[i].cpf) == 0) {
+      printf("Data: %s | Valor: %.2lf | Tarifa: %.2lf | Saldo: %.2lf\n",
+             lista_extrato[i].data, lista_extrato[i].valor,
+             lista_extrato[i].tarifa, lista_extrato[i].saldo);
+    }
+  }
+}
