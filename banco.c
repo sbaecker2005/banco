@@ -78,3 +78,12 @@ struct Cliente *buscar_cliente(const char *cpf, struct Cliente *clientesbanco, i
   }
   return NULL;
 }
+
+struct Cliente *buscar_senha(const char *senha, struct Cliente *clientesbanco, int numClientes) {
+  for (int i = 0; i < numClientes; i++) {
+    if (strcmp(senha, clientesbanco[i].senha) == 0) {
+      return &clientesbanco[i];
+    }
+  }
+  return NULL;
+}
