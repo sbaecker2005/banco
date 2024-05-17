@@ -70,3 +70,11 @@ void ler_arquivo_extrato(struct Extrato *lista_extrato, int *numExtratos) {
 
   fclose(arquivo);
 }
+struct Cliente *buscar_cliente(const char *cpf, struct Cliente *clientesbanco, int numClientes) {
+  for (int i = 0; i < numClientes; i++) {
+    if (strcmp(cpf, clientesbanco[i].cpf) == 0) {
+      return &clientesbanco[i];
+    }
+  }
+  return NULL;
+}
