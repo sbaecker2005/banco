@@ -229,3 +229,51 @@ void extrato(struct Cliente *clientesbanco, int numClientes, struct Extrato *lis
     }
   }
 }
+void transferencia(struct Cliente *clientesbanco, int numClientes, struct Extrato *lista_extrato, int *numExtratos) {
+  char cpf_origem[12], cpf_destino[12];
+  double valor;
+  printf("Digite o CPF da conta de origem: ");
+  scanf("%s", cpf_origem);
+  printf("Digite o CPF da conta de destino: ");
+  scanf("%s", cpf_destino);
+  printf("Digite o valor que será transferido: ");
+  scanf("%lf", &valor);
+
+  struct Cliente *cliente_origem = buscar_cliente(cpf_origem, clientesbanco, numClientes);
+  struct Cliente *cliente_destino = buscar_cliente(cpf_destino, clientesbanco, numClientes);
+  if (cliente_origem == NULL || cliente_destino == NULL) {
+    printf("Uma ou ambas as contas não foram encontradas\n");
+    return;
+  }
+
+  if (cliente_origem->tipo == 2 && cliente_origem->saldo - (valor * 1.05) >= -1000) {
+    cliente_origem->saldo -= (valor * 1.05);
+  } else if (cliente_origem->tipo == 1 && cliente_origem->saldo - (valor * 1.03) >= -5000) {
+    cliente_origem->saldo -= (valor * 1.03);
+  } else {
+    printf("Valor além do limite da conta\n");
+    return;
+  }
+
+  cliente_destino->saldo += valor;
+
+  strcpy(lista_extrato[*numExtratos].cpf, cpf_origem);
+  time_t now = time(NULL);
+  struct tm *tm_info = localtime(&now);
+  strftime(lista_extrato[*numExtratos].data, 20, "%d/%m/%Y %H:%M:%S", tm_info);
+  lista_extrato[*numExtratos].valor = -valor;
+  lista_extrato[*numExtratos].tarifa = cliente_origem->tipo == 2 ? 0.05 * valor : 0.03 * valor;
+  lista_extrato[*numExtratos].saldo = cliente_origem->saldo;
+  (*numExtratos)++;
+
+  strcpy(lista_extrato[*numExtratos].cpf, cpf_destino);
+  strftime(lista_extrato[*numExtratos].data, 20, "%d/%m/%Y %H:%M:%S", tm_info);
+  lista_extrato[*numExtratos].valor = valor;
+  lista_extrato[*numExtratos].tarifa = 0.0;
+  lista_extrato[*numExtratos].saldo = cliente_destino->saldo;
+  (*numExtratos)++;
+
+  arquivo_clientes(clientesbanco, numClientes);
+  arquivo_extrato(lista_extrato, *numExtratos);
+  printf("Transferência realizada com sucesso\n");
+}
