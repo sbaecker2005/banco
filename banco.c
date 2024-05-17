@@ -162,3 +162,18 @@ void deposito(struct Cliente *clientesbanco, int numClientes, struct Extrato *li
     printf("Cliente não encontrado\n");
     return;
   }
+ cliente->saldo += valor;
+
+  strcpy(lista_extrato[*numExtratos].cpf, cpf);
+  time_t now = time(NULL);
+  struct tm *tm_info = localtime(&now);
+  strftime(lista_extrato[*numExtratos].data, 20, "%d/%m/%Y %H:%M:%S", tm_info);
+  lista_extrato[*numExtratos].valor = valor;
+  lista_extrato[*numExtratos].tarifa = 0.0;
+  lista_extrato[*numExtratos].saldo = cliente->saldo;
+  (*numExtratos)++;
+
+  arquivo_clientes(clientesbanco, numClientes);
+  arquivo_extrato(lista_extrato, *numExtratos);
+  printf("O valor foi depositado com sucesso\n");
+}
