@@ -118,3 +118,26 @@ void cadastrar_cliente(struct Cliente *clientesbanco, int *numClientes, struct E
   arquivo_extrato(lista_extrato, *numExtratos);
   printf("Cliente cadastrado com sucesso.\n");
 }
+
+void deletar_cliente(struct Cliente *clientesbanco, int *numClientes) {
+  char cpf[12];
+  char senha[20];
+  printf("Digite seu CPF: ");
+  scanf("%s", cpf);
+  printf("Digite sua senha: ");
+  scanf("%s", senha);
+
+  for (int i = 0; i < *numClientes; i++) {
+    if (strcmp(cpf, clientesbanco[i].cpf) == 0 &&
+        strcmp(senha, clientesbanco[i].senha) == 0) {
+      for (int j = i; j < *numClientes - 1; j++) {
+        clientesbanco[j] = clientesbanco[j + 1];
+      }
+      (*numClientes)--;
+      arquivo_clientes(clientesbanco, *numClientes);
+      printf("\nCliente apagado\n\n");
+      return;
+    }
+  }
+  printf("CPF ou senha incorretos\n");
+}
