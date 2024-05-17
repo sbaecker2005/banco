@@ -177,3 +177,42 @@ void deposito(struct Cliente *clientesbanco, int numClientes, struct Extrato *li
   arquivo_extrato(lista_extrato, *numExtratos);
   printf("O valor foi depositado com sucesso\n");
 }
+void debito(struct Cliente *clientesbanco, int numClientes, struct Extrato *lista_extrato, int *numExtratos) {
+  char cpf[12];
+  char senha[20];
+  double valor;
+  printf("Digite seu CPF: ");
+  scanf("%s", cpf);
+  printf("Digite sua senha: ");
+  scanf("%s", senha);
+  printf("Digite o valor que será debitado: ");
+  scanf("%lf", &valor);
+
+  struct Cliente *cliente = buscar_cliente(cpf, clientesbanco, numClientes);
+  if (cliente == NULL) {
+    printf("Cliente não encontrado\n");
+    return;
+  }
+
+  if (cliente->tipo == 2 && cliente->saldo - (valor * 1.05) >= -1000) {
+    cliente->saldo -= (valor * 1.05);
+  } else if (cliente->tipo == 1 && cliente->saldo - (valor * 1.03) >= -5000) {
+    cliente->saldo -= (valor * 1.03);
+  } else {
+    printf("Valor além do limite da conta\n");
+    return;
+  }
+
+  strcpy(lista_extrato[*numExtratos].cpf, cpf);
+  time_t now = time(NULL);
+  struct tm *tm_info = localtime(&now);
+  strftime(lista_extrato[*numExtratos].data, 20, "%d/%m/%Y %H:%M:%S", tm_info);
+  lista_extrato[*numExtratos].valor = -valor;
+  lista_extrato[*numExtratos].tarifa = cliente->tipo == 2 ? 0.05 * valor : 0.03 * valor;
+  lista_extrato[*numExtratos].saldo = cliente->saldo;
+  (*numExtratos)++;
+
+  arquivo_clientes(clientesbanco, numClientes);
+  arquivo_extrato(lista_extrato, *numExtratos);
+  printf("O valor foi debitado com sucesso\n");
+}
