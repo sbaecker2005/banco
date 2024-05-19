@@ -1,4 +1,4 @@
-#include "cliente_banco.h"
+#include "banco.h"
 #include <stdio.h>
 
 struct Cliente clientesbanco[100];
