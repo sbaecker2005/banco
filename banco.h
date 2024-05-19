@@ -1,5 +1,5 @@
-#ifndef CLIENTE_BANCO_H
-#define CLIENTE_BANCO_H
+#ifndef BANCO_H
+#define BANCO_H
 
 struct Cliente {
     char nome[100];
